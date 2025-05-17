@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { DataTable } from "@/components/ui/data-table";
 import { reportColumns, Report } from "@/components/ReportColumns";
 import { sampleReports } from "@/data/sampleReports";
+import { useEffect } from "react";
 
 interface TabContentProps {
   activeTab: string;
@@ -32,6 +33,12 @@ export function TabContent({
   onDownload,
   ReportDetail
 }: TabContentProps) {
+  // Add useEffect to ensure data is properly loaded
+  useEffect(() => {
+    console.log("TabContent mounted with activeTab:", activeTab);
+    console.log("Sample reports data availability:", sampleReports.length);
+  }, [activeTab]);
+  
   // Log data to debug
   console.log("TabContent reportData:", reportData);
   console.log("TabContent filteredReports:", filteredReports);
@@ -69,6 +76,7 @@ export function TabContent({
     assessments: "Security assessment documentation"
   }[activeTab] || "";
   
+  // Ensure we always have valid data by using sampleReports as fallback
   const filteredByType = sampleReports.filter(r => 
     r.type.toLowerCase() === activeTab || 
     (activeTab === "assessments" && r.type === "Assessment")

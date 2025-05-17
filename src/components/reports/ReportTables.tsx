@@ -12,10 +12,18 @@ interface ReportTablesProps {
 
 export function ReportTables({ data, onRowClick }: ReportTablesProps) {
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
     console.log("ReportTables data:", data);
     console.log("ReportTables data length:", data?.length || 0);
+    
+    // Ensure data is available
+    if (data && data.length > 0) {
+      setIsDataLoaded(true);
+    } else {
+      setIsDataLoaded(false);
+    }
   }, [data]);
 
   const handleRowClick = (report: Report) => {
@@ -35,7 +43,7 @@ export function ReportTables({ data, onRowClick }: ReportTablesProps) {
           </div>
         </CardHeader>
         <CardContent>
-          {data && data.length > 0 ? (
+          {isDataLoaded ? (
             <DataTable 
               columns={reportColumns} 
               data={data}
